@@ -7,8 +7,8 @@ and handles comments (M-;).
 How to install it?
 ------------------
 
-   (require 'bb-mode)
-   (setq auto-mode-alist
+    (require 'bb-mode)
+    (setq auto-mode-alist
          (append '(("\\.bb\\'" . bb-mode)
                    ("\\.inc\\'" . bb-mode)
                    ("\\.bbclass\\'" . bb-mode)
