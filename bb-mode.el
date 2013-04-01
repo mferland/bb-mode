@@ -43,25 +43,42 @@ For detail, see `comment-dwim'."
         )
     (comment-dwim arg)))
 
-(setq bb-expr-bol "^[ \t]*")
-(setq bb-function-regexp "\\([a-zA-Z0-9_-]*\\)[ \t]*\\(([ \t]*)\\)")
+(setq bb-expr-bol-regexp "^[ \t]*")
+(setq bb-expr-white-space-regexp "[ \t]*")
+(setq bb-function-name-regexp "\\([a-zA-Z0-9_-]*\\)")
+(setq bb-function-decl-regexp (concat bb-function-name-regexp bb-expr-white-space-regexp "\\(([ \t]*)\\)"))
 (setq bb-python-regexp "\\(python\\)")
 (setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
 (setq bb-variable-assignment-regexp (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
-      (concat bb-expr-bol
+      (concat bb-expr-bol-regexp
               (regexp-opt '("export" "addtask" "inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
               ))
 
 (setq bb-font-lock
       `(
         (,bb-keywords-regexp 0 font-lock-keyword-face)
+        
         (,bb-addtask-regexp 0 font-lock-keyword-face)
-        (,(concat bb-expr-bol bb-function-regexp) 1 font-lock-function-name-face)
-        (,(concat bb-expr-bol bb-python-regexp "[ \t]+" bb-function-regexp) (1 font-lock-keyword-face) (2 font-lock-function-name-face))
-        (,(concat bb-expr-bol bb-variable-regexp "[ \t]*" bb-variable-assignment-regexp) 1 font-lock-variable-name-face)
+        
+        (,(concat bb-expr-bol-regexp
+                  bb-python-regexp
+                  "[ \t]+"
+                  bb-function-name-regexp)
+         (1 font-lock-keyword-face) (2 font-lock-function-name-face))
+        
+        (,(concat bb-expr-bol-regexp
+                  bb-function-decl-regexp)
+         1 font-lock-function-name-face)
+        
+        (,(concat "[ \t]*"
+                  bb-variable-regexp
+                  "[ \t]*"
+                  bb-variable-assignment-regexp)
+         1 font-lock-variable-name-face)
+
         (,bb-variable-deref-regexp 0 font-lock-variable-name-face)
         )
       )
