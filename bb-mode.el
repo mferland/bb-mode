@@ -68,7 +68,7 @@ For detail, see `comment-dwim'."
         ;; keywords
         (,bb-keywords-regexp 0 font-lock-keyword-face)
 
-        ;; addtask 3rd form: addtask TASKNAME (after|before) TASKNAME (after|before) TASKNAME
+        ;; addtask 3rd form: addtask FUNCTION_NAME (after|before) FUNCTION_NAME (after|before) FUNCTION_NAME
         (,(concat "^"
                   "\\(addtask\\)"
                   "[ \t]+"
@@ -90,7 +90,7 @@ For detail, see `comment-dwim'."
          (6 font-lock-function-name-face)
          )
         
-        ;; addtask 2nd form: addtask TASKNAME (after|before) TASKNAME
+        ;; addtask 2nd form: addtask FUNCTION_NAME (after|before) FUNCTION_NAME
         (,(concat "^"
                   "\\(addtask\\)"
                   "[ \t]+"
@@ -106,8 +106,7 @@ For detail, see `comment-dwim'."
          (4 font-lock-function-name-face)
          )
 
-        ;; addtask 1st form: addtask TASKNAME
-        ;;(,bb-addtask-regexp 0 font-lock-keyword-face)
+        ;; addtask 1st form: addtask FUNCTION_NAME
         (,(concat "^"
                   "\\(addtask\\)"
                   "[ \t]+"
