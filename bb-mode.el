@@ -46,7 +46,8 @@ For detail, see `comment-dwim'."
 (setq bb-expr-bol-regexp "^[ \t]*")
 (setq bb-expr-white-space-regexp "[ \t]*")
 (setq bb-function-name-regexp "\\([a-zA-Z0-9_-]*\\)")
-(setq bb-function-decl-regexp (concat bb-function-name-regexp bb-expr-white-space-regexp "\\(([ \t]*)\\)"))
+(setq bb-function-paren-regexp "([ \t]*)")
+(setq bb-function-decl-regexp (concat bb-function-name-regexp bb-expr-white-space-regexp bb-function-paren-regexp))
 (setq bb-python-regexp "\\(python\\)")
 (setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
 (setq bb-variable-assignment-regexp (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
@@ -54,30 +55,43 @@ For detail, see `comment-dwim'."
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
       (concat bb-expr-bol-regexp
-              (regexp-opt '("export" "addtask" "inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
+              (regexp-opt '("addtask" "inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
               ))
 
 (setq bb-font-lock
       `(
+        ;; keywords
         (,bb-keywords-regexp 0 font-lock-keyword-face)
         
         (,bb-addtask-regexp 0 font-lock-keyword-face)
-        
-        (,(concat bb-expr-bol-regexp
+
+        ;; python function
+        (,(concat "^"
                   bb-python-regexp
                   "[ \t]+"
                   bb-function-name-regexp)
          (1 font-lock-keyword-face) (2 font-lock-function-name-face))
-        
-        (,(concat bb-expr-bol-regexp
+
+        ;; shell script function
+        (,(concat "^"
                   bb-function-decl-regexp)
          1 font-lock-function-name-face)
-        
-        (,(concat "[ \t]*"
+
+        ;; export variable
+        (,(concat "^\\(export\\)"
+                  "[ \t]*"
                   bb-variable-regexp
                   "[ \t]*"
                   bb-variable-assignment-regexp)
-         1 font-lock-variable-name-face)
+         (1 font-lock-keyword-face)
+         (2 font-lock-variable-name-face))
+
+        ;; variable
+        (,(concat "^"
+                  bb-variable-regexp
+                  "[ \t]*"
+                  bb-variable-assignment-regexp)
+         (1 font-lock-variable-name-face))
 
         (,bb-variable-deref-regexp 0 font-lock-variable-name-face)
         )
