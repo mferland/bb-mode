@@ -43,7 +43,6 @@ For detail, see `comment-dwim'."
         )
     (comment-dwim arg)))
 
-(setq bb-expr-bol-regexp "^[ \t]*")
 (setq bb-expr-white-space-regexp "[ \t]*")
 (setq bb-function-name-regexp "\\([a-zA-Z0-9_-]*\\)")
 (setq bb-function-paren-regexp "([ \t]*)")
@@ -54,7 +53,7 @@ For detail, see `comment-dwim'."
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
-      (concat bb-expr-bol-regexp
+      (concat "^"
               (regexp-opt '("addtask" "inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
               ))
 
