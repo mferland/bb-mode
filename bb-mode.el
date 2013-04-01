@@ -60,7 +60,23 @@ For detail, see `comment-dwim'."
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
       (concat "^"
-              (regexp-opt '("inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
+              (regexp-opt '("inherit"
+                            "include"
+                            "require"
+                            "EXPORT_FUNCTIONS"
+                            "addhandler") 'words)
+              ))
+(setq bb-base-function-decl-regexp
+      (concat "^"
+              (regexp-opt '("do_setscene"
+                            "do_fetch"
+                            "do_unpack"
+                            "do_patch"
+                            "do_configure"
+                            "do_compile"
+                            "do_install"
+                            "do_populate_sysroot"
+                            "do_package") 'words)
               ))
 
 (setq bb-font-lock
@@ -121,7 +137,16 @@ For detail, see `comment-dwim'."
                   "\\(python\\)"
                   "[ \t]+"
                   bb-function-decl-opt-regexp)
-         (1 font-lock-keyword-face) (2 font-lock-function-name-face))
+         (1 font-lock-keyword-face)
+         (2 font-lock-function-name-face)
+         )
+
+        ;; built-in/basic "do_" routines
+        (,(concat bb-base-function-decl-regexp
+                  "[ \t]*"
+                  bb-function-paren-regexp)
+         (1 font-lock-builtin-face)
+         )
 
         ;; shell script function
         (,(concat "^"
@@ -166,13 +191,19 @@ For detail, see `comment-dwim'."
   (setq font-lock-defaults '((bb-font-lock)))
   (define-key bb-mode-map [remap comment-dwim] 'bb-comment-dwim)
   
-  (setq bb-function-regexp nil)
-  (setq bb-python-regexp nil)
+  (setq bb-expr-white-space-regexp nil)
+  (setq bb-function-name-opt-regexp nil)
+  (setq bb-function-name-regexp nil)
+  (setq bb-function-paren-regexp nil)
+  (setq bb-function-decl-regexp nil)
+  (setq bb-function-decl-opt-regexp nil)
   (setq bb-variable-regexp nil)
   (setq bb-variable-assignment-regexp nil)
   (setq bb-variable-deref-regexp nil)
   (setq bb-addtask-regexp nil)
   (setq bb-keywords-regexp nil)
+  (setq bb-base-function-decl-regexp nil)
+
   )
 
 (provide 'bb-mode)
