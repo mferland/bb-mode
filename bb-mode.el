@@ -44,30 +44,84 @@ For detail, see `comment-dwim'."
     (comment-dwim arg)))
 
 (setq bb-expr-white-space-regexp "[ \t]*")
-(setq bb-function-name-regexp "\\([a-zA-Z0-9_-]*\\)")
+(setq bb-function-name-opt-regexp "\\([a-zA-Z0-9_-]*\\)")
+(setq bb-function-name-regexp "\\([a-zA-Z0-9_-]+\\)")
 (setq bb-function-paren-regexp "([ \t]*)")
-(setq bb-function-decl-regexp (concat bb-function-name-regexp bb-expr-white-space-regexp bb-function-paren-regexp))
+(setq bb-function-decl-regexp (concat bb-function-name-regexp
+                                      bb-expr-white-space-regexp
+                                      bb-function-paren-regexp))
+(setq bb-function-decl-opt-regexp (concat bb-function-name-opt-regexp
+                                          bb-expr-white-space-regexp
+                                          bb-function-paren-regexp))
 (setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
-(setq bb-variable-assignment-regexp (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
+(setq bb-variable-assignment-regexp
+      (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
       (concat "^"
-              (regexp-opt '("addtask" "inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
+              (regexp-opt '("inherit" "include" "require" "EXPORT_FUNCTIONS" "addhandler") 'words)
               ))
 
 (setq bb-font-lock
       `(
         ;; keywords
         (,bb-keywords-regexp 0 font-lock-keyword-face)
+
+        ;; addtask 3rd form: addtask TASKNAME (after|before) TASKNAME (after|before) TASKNAME
+        (,(concat "^"
+                  "\\(addtask\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  "[ \t]+"
+                  "\\(before\\|after\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  "[ \t]+"
+                  "\\(before\\|after\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  )
+         (1 font-lock-keyword-face)
+         (2 font-lock-function-name-face)
+         (3 font-lock-keyword-face)
+         (4 font-lock-function-name-face)
+         (5 font-lock-keyword-face)
+         (6 font-lock-function-name-face)
+         )
         
-        (,bb-addtask-regexp 0 font-lock-keyword-face)
+        ;; addtask 2nd form: addtask TASKNAME (after|before) TASKNAME
+        (,(concat "^"
+                  "\\(addtask\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  "[ \t]+"
+                  "\\(before\\|after\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  )
+         (1 font-lock-keyword-face)
+         (2 font-lock-function-name-face)
+         (3 font-lock-keyword-face)
+         (4 font-lock-function-name-face)
+         )
+
+        ;; addtask 1st form: addtask TASKNAME
+        ;;(,bb-addtask-regexp 0 font-lock-keyword-face)
+        (,(concat "^"
+                  "\\(addtask\\)"
+                  "[ \t]+"
+                  bb-function-name-regexp
+                  )
+         (1 font-lock-keyword-face)
+         (2 font-lock-function-name-face)
+         )
 
         ;; python function
         (,(concat "^"
                   "\\(python\\)"
                   "[ \t]+"
-                  bb-function-decl-regexp)
+                  bb-function-decl-opt-regexp)
          (1 font-lock-keyword-face) (2 font-lock-function-name-face))
 
         ;; shell script function
