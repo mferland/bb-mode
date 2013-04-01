@@ -46,7 +46,7 @@ For detail, see `comment-dwim'."
 (setq bb-function-regexp "\\([a-zA-Z0-9_-]*\\)[ \t]*\\(([ \t]*)\\)")
 (setq bb-python-regexp "\\(python\\)")
 (setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
-(setq bb-variable-assignment-regexp "\\(=\\|:=\\|\\?=\\|\\.=\\|\\?\\?=\\|\\+=\\|=\\+\\|=\\.\\)")
+(setq bb-variable-assignment-regexp (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
 (setq bb-addtask-regexp (regexp-opt '("before" "after") 'words))
 (setq bb-keywords-regexp
@@ -60,7 +60,7 @@ For detail, see `comment-dwim'."
         (,bb-addtask-regexp 0 font-lock-keyword-face)
         (,(concat "^[ \t]*" bb-function-regexp) 1 font-lock-function-name-face)
         (,(concat "^[ \t]*" bb-python-regexp "[ \t]+" bb-function-regexp) (1 font-lock-keyword-face) (2 font-lock-function-name-face))
-        (,(concat bb-variable-regexp "[ \t]*" bb-variable-assignment-regexp "[ \t]*") 1 font-lock-variable-name-face)
+        (,(concat "^[ \t]*" bb-variable-regexp "[ \t]*" bb-variable-assignment-regexp) 1 font-lock-variable-name-face)
         (,bb-variable-deref-regexp 0 font-lock-variable-name-face)
         )
       )
