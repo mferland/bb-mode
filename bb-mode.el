@@ -47,7 +47,6 @@ For detail, see `comment-dwim'."
 (setq bb-function-name-regexp "\\([a-zA-Z0-9_-]*\\)")
 (setq bb-function-paren-regexp "([ \t]*)")
 (setq bb-function-decl-regexp (concat bb-function-name-regexp bb-expr-white-space-regexp bb-function-paren-regexp))
-(setq bb-python-regexp "\\(python\\)")
 (setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
 (setq bb-variable-assignment-regexp (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
@@ -66,9 +65,9 @@ For detail, see `comment-dwim'."
 
         ;; python function
         (,(concat "^"
-                  bb-python-regexp
+                  "\\(python\\)"
                   "[ \t]+"
-                  bb-function-name-regexp)
+                  bb-function-decl-regexp)
          (1 font-lock-keyword-face) (2 font-lock-function-name-face))
 
         ;; shell script function
@@ -78,7 +77,7 @@ For detail, see `comment-dwim'."
 
         ;; export variable
         (,(concat "^\\(export\\)"
-                  "[ \t]*"
+                  "[ \t]+"
                   bb-variable-regexp
                   "[ \t]*"
                   bb-variable-assignment-regexp)
