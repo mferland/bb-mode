@@ -1,8 +1,8 @@
 bb-mode
 =======
 
-bb-mode is a major mode for Emacs. It does basic syntax highlighting
-and handles comments (M-;).
+bb-mode is a major mode for editing bitbake recipe files in Emacs. It
+does basic syntax highlighting and handles comments (M-;).
 
 How to install it?
 ------------------
