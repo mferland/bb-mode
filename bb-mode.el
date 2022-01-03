@@ -53,7 +53,7 @@ For detail, see `comment-dwim'."
 (setq bb-function-decl-opt-regexp (concat bb-function-name-opt-regexp
                                           bb-expr-white-space-regexp
                                           bb-function-paren-regexp))
-(setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}]+\\)")
+(setq bb-variable-regexp "\\([]\[a-zA-Z0-9\-_\/\${}:]+\\)")
 (setq bb-variable-assignment-regexp
       (regexp-opt '("=" ":=" "?=" ".=" "??=" "+=" "=+" "=.")))
 (setq bb-variable-deref-regexp "\${[a-zA-Z0-9\-_\/]+}")
