@@ -1,12 +1,12 @@
 ;;; bb-mode.el --- major mode for editing bitbake files
 
-;; Copyright (c) 2013 Marc Ferland <marc.ferland@gmail.com>
+;; Copyright (c) 2024 Marc Ferland <marc.ferland@gmail.com>
 
 ;; Author: Marc Ferland <marc.ferland@gmail.com>
 
 ;; Keywords: languages, faces
-;; Last edit: 2013-03-30
-;; Version: 1.0
+;; Last edit: 2024-09-13
+;; Version: 1.1
 
 ;; bb-mode.el is free software; you can redistribute it and/or modify it
 ;; under the terms of the GNU General Public License as published by the Free
@@ -44,8 +44,8 @@ For detail, see `comment-dwim'."
     (comment-dwim arg)))
 
 (setq bb-expr-white-space-regexp "[ \t]*")
-(setq bb-function-name-opt-regexp "\\([a-zA-Z0-9_-]*\\)")
-(setq bb-function-name-regexp "\\([a-zA-Z0-9_-]+\\)")
+(setq bb-function-name-opt-regexp "\\([a-zA-Z0-9_:-]*\\)")
+(setq bb-function-name-regexp "\\([a-zA-Z0-9_:-]+\\)")
 (setq bb-function-paren-regexp "([ \t]*)")
 (setq bb-function-decl-regexp (concat bb-function-name-regexp
                                       bb-expr-white-space-regexp
