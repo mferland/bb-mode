@@ -181,6 +181,9 @@ For detail, see `comment-dwim'."
         (modify-syntax-entry ?# "< b" synTable)
         (modify-syntax-entry ?\n "> b" synTable)
 
+        ;; BitBake accepts both single- and double-quoted strings.
+        (modify-syntax-entry ?' "\"" synTable)
+
         synTable))
 
 (define-derived-mode bb-mode fundamental-mode
