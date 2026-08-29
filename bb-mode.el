@@ -1,3 +1,5 @@
+;; -*- lexical-binding: t; -*-
+
 ;;; bb-mode.el --- major mode for editing bitbake files
 
 ;; Copyright (c) 2024 Marc Ferland <marc.ferland@gmail.com>
